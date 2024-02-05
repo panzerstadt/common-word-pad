@@ -1,5 +1,3 @@
-// TODO: refer to notebook on autocomplete showcase, with reactflow to show the Trie in action
-
 import { useEffect, useState } from "react";
 import { useAutoComplete } from "./useAutoComplete";
 import { GraphData } from "./dictionary";

@@ -12,8 +12,8 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { GraphData } from "./components/autocomplete/dictionary";
-import { AutocompleteInput } from "./components/autocomplete";
 import { TrieNode } from "./components/autocomplete/graph/Node";
+import { AutoCompleteNotepad } from "./components/autocomplete/notepad";
 
 export default function Tries() {
   return (
@@ -69,7 +69,7 @@ const Graph = () => {
 
   return (
     <div className="h-screen w-full flex items-center justify-center">
-      <AutocompleteInput onUpdate={handleUpdateGraph} />
+      <AutoCompleteNotepad onUpdate={handleUpdateGraph} />
       <ReactFlow
         nodes={nodes}
         edges={edges}
