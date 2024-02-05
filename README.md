@@ -1,3 +1,9 @@
+## concept
+
+imagine a notepad where the only words you can type are the 1000 most common words in the english dictionary!
+
+## nextjs
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
