@@ -54,11 +54,15 @@ const Graph = () => {
       (n) => n.data.highlighted && n.data.label !== "empty"
     );
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       window.requestAnimationFrame(() => {
         fitView({ padding: 0.5, nodes: highlightedNodes });
       });
     }, 30);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [graph]);
 
   const handleUpdateGraph = (newGraph: GraphData) => {
@@ -70,6 +74,9 @@ const Graph = () => {
   return (
     <div className="h-screen w-full flex items-center justify-center">
       <AutoCompleteNotepad onUpdate={handleUpdateGraph} />
+      <p className="fixed bottom-5 left-20">
+        type using the 1000 most common words in the english dictionary, and no more.
+      </p>
       <ReactFlow
         nodes={nodes}
         edges={edges}
