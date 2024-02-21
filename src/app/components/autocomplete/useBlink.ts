@@ -4,7 +4,7 @@ export const useBlink = (expiry = 500) => {
   const [warn, setWarn] = useState(false);
 
   useEffect(() => {
-    let timer = null;
+    let timer: NodeJS.Timeout | null = null;
     if (warn === true) {
       timer = setTimeout(() => setWarn(false), expiry);
     }
