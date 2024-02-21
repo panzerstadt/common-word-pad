@@ -28,7 +28,7 @@ export const useAutoComplete = () => {
     const res = dictRef.current?.search(partial);
 
     setGraph(dictRef.current?.graph(partial));
-    res && setResults(res);
+    setResults(res || []);
   };
 
   const handleLoadDictionary = (words: string[]) => {
