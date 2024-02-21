@@ -128,12 +128,10 @@ export default class Trie<Partials extends Object, Value extends Object> {
     // 2.1 if has children, don't remove
     if (node.children.length > 0) return;
     // 2.2 else remove node, go to parent, repeat 2
-    let tmp: Node<Partials> | undefined = node;
     node = node.parent;
     if (node) {
       node.children = [];
     }
-    tmp = undefined;
 
     // recurse
     this._removeNode(node);
@@ -218,15 +216,36 @@ export default class Trie<Partials extends Object, Value extends Object> {
     });
 
     // post
+
+    // because partial match searchTerms that are longer
+    // than the result, we clean that up here by
+    // removing items where search term is longer than result
+    const badIdxs: number[] = [];
+    results.forEach((res, idx) => {
+      if (this.toPartials(search).length > this.toPartials(res).length) {
+        badIdxs.push(idx);
+      }
+    });
+
+    for (let i = results.length - 1; i >= 0; i--) {
+      if (badIdxs.includes(i)) {
+        results.splice(i, 1);
+      }
+    }
   }
 
+  /**
+   * Checks if there is a partial match between the search value and the word constructed so far.
+   * matches true even if search term is longer than the words so far
+   * e.g. search:beee <-> sofar:be = true
+   */
   private _hasPartialMatch(search: Value, wordSoFar: Partials[]): boolean {
     const searchPartials = this.toPartials(search);
     for (const sIdx in searchPartials) {
       const searchChar = searchPartials[sIdx];
       const wordSoFarChar = wordSoFar[sIdx];
       if (!wordSoFarChar) break;
-      // the partial search no longer matches the word so far
+      // the partial search no longer matches the word constructed so far
       if (!this.comparePartials(searchChar, wordSoFarChar)) return false;
     }
     return true;
