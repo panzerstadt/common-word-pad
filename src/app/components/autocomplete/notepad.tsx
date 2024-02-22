@@ -63,7 +63,7 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) 
     const valueArray = [...value];
 
     if (valueArray.every((v) => isAlpha(v))) {
-      return setWordPart(value);
+      return setWordPart(value.toLowerCase());
     }
 
     const lastChar = valueArray[value.length - 1];
@@ -98,11 +98,12 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) 
         <div className="transition-colors flex gap-2 relative w-full border-4 border-slate-400 overflow-hidden rounded-xl focus-within:border-sky-400">
           <p
             onClick={handleFocusInput}
-            className="transition-colors py-3 px-4 w-full h-52 bg-slate-100 focus-within:bg-white text-3xl font-bold overflow-y-auto text-slate-700"
+            className="transition-colors py-3 px-4 w-full h-52 bg-slate-100 focus-within:bg-white text-3xl font-bold overflow-y-auto text-slate-700 overflow-x-visible"
           >
-            {content}{" "}
+            <span>{content}</span>{" "}
             <input
               ref={inputRef}
+              style={{ width: 200 }}
               className={`${warn ? "bg-red-300" : "bg-transparent"} outline-none`}
               onChange={handleType}
               onKeyDown={handleBackspace}
