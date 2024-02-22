@@ -6,7 +6,7 @@ import { useBlink } from "./useBlink";
 import { given } from "flooent";
 import useDebouncedEffect from "use-debounced-effect";
 
-export const MAX_WORDS = 500;
+export const MAX_WORDS = 1000;
 
 interface Props {
   onUpdate?: (graph: GraphData) => void;

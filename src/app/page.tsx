@@ -78,7 +78,7 @@ const Graph = () => {
     );
 
     window.requestAnimationFrame(() => {
-      fitView({ padding: 0.5, nodes: highlightedNodes, duration: 300 });
+      fitView({ padding: 0.5, nodes: highlightedNodes, duration: 500 });
     });
   };
 
@@ -100,6 +100,7 @@ const Graph = () => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={customNodeSelectors}
+        onlyRenderVisibleElements={true}
       >
         <MiniMap nodeStrokeWidth={100} pannable />
         <Controls />
