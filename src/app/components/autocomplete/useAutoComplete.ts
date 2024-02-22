@@ -8,10 +8,6 @@ export const useAutoComplete = () => {
 
   useEffect(() => {
     const dict = Dictionary();
-    dict.learn("try");
-    dict.learn("adding");
-    dict.learn("new");
-    dict.learn("letters");
     setGraph(dict.graph());
     dictRef.current = dict;
   }, []);
