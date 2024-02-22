@@ -27,7 +27,7 @@ export const Dictionary = () => {
       const nodes: Node[] = [];
       const edges: Edge[] = [];
 
-      traverse(rawGraph, "root", 0, nodes, edges, partial);
+      traverse(rawGraph, "root", "root", 0, nodes, edges, partial);
 
       return {
         raw: rawGraph,
@@ -44,6 +44,7 @@ export type GraphData = ReturnType<ReturnType<typeof Dictionary>["graph"]>;
 const traverse = (
   node: OutputNode<string> | null,
   id: string,
+  idSinceRoot: string,
   level: number,
   outputNodes: Node[],
   outputEdges: Edge[],
@@ -52,7 +53,7 @@ const traverse = (
   if (!node) return;
   // 1. make node from value, isWord, tagged, and id passed in from parent
   const newNode: Node = {
-    id,
+    id: idSinceRoot,
     type: "trie",
     position: { x: 0, y: 0 }, // dw, dagre will handle it
     data: {
@@ -71,8 +72,9 @@ const traverse = (
   // - recurse.
   const nextLevel = level + 1;
   for (const child of node.children) {
-    const nextId = `${child.value}-${nextLevel}-${Math.random()}`;
-    outputEdges.push({ id: `${id}-${nextId}`, source: id, target: nextId });
-    traverse(child, nextId, nextLevel, outputNodes, outputEdges, partial);
+    const nextId = `${child.value}-${nextLevel}`;
+    const fullId = `${idSinceRoot}-${nextId}`;
+    outputEdges.push({ id: fullId, source: idSinceRoot, target: fullId });
+    traverse(child, nextId, fullId, nextLevel, outputNodes, outputEdges, partial);
   }
 };
