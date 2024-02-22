@@ -6,6 +6,8 @@ import { useBlink } from "./useBlink";
 import { given } from "flooent";
 import useDebouncedEffect from "use-debounced-effect";
 
+export const MAX_WORDS = 500;
+
 interface Props {
   onUpdate?: (graph: GraphData) => void;
 }
@@ -27,7 +29,7 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate }) => {
       .then((res) => {
         const all = res.split("\n");
 
-        const wordsSubset = all.slice(0, 200);
+        const wordsSubset = all.slice(0, MAX_WORDS);
 
         handleLoadDictionary(wordsSubset);
       });

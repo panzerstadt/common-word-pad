@@ -24,8 +24,8 @@ export const TrieNode = memo<{ data: Node["data"]; isConnectable: boolean }>(
               ${data.highlighted ? "bg-sky-600 text-white" : "text-slate-600 bg-white"}
               `}
       >
-        <SimpleHandle type="target" position={Position.Left} isConnectable={isConnectable} />
-        <SimpleHandle type="source" position={Position.Right} isConnectable={isConnectable} />
+        <SimpleHandle type="target" position={Position.Top} isConnectable={isConnectable} />
+        <SimpleHandle type="source" position={Position.Bottom} isConnectable={isConnectable} />
 
         <p className={`${zoomedIn ? "text-xs" : "text-lg font-bold"}`}>{data.label}</p>
       </div>

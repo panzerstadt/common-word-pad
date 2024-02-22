@@ -13,7 +13,7 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { GraphData } from "./components/autocomplete/dictionary";
 import { TrieNode } from "./components/autocomplete/graph/Node";
-import { AutoCompleteNotepad } from "./components/autocomplete/notepad";
+import { AutoCompleteNotepad, MAX_WORDS } from "./components/autocomplete/notepad";
 
 export default function Tries() {
   return (
@@ -37,7 +37,7 @@ const Graph = () => {
   useEffect(() => {
     if (nodes.length === 0) return;
     const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-    g.setGraph({ rankdir: "LR" });
+    g.setGraph({ rankdir: "TB" });
     edges.forEach((edge) => g.setEdge(edge.source, edge.target));
     // @ts-ignore
     nodes.forEach((node) => g.setNode(node.id, { ...node, width: node.id === "root" ? 60 : null }));
@@ -75,7 +75,7 @@ const Graph = () => {
     <div className="h-screen w-full flex items-center justify-center">
       <AutoCompleteNotepad onUpdate={handleUpdateGraph} />
       <p className="fixed bottom-5 left-20 z-50 bg-slate-50">
-        type using the 200 most common words in the english dictionary, and no more.
+        type using the {MAX_WORDS} most common words in the english dictionary, and no more.
       </p>
       <ReactFlow
         nodes={nodes}
