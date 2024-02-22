@@ -94,11 +94,11 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) 
 
   return (
     <div className="fixed top-0 left-0 w-full px-8 pt-10 z-50 flex md:flex-row flex-col gap-2 items-start">
-      <div className="max-w-lg w-full">
-        <div className="transition-colors flex gap-2 relative w-full border-2 border-slate-400 overflow-hidden rounded-lg focus-within:border-sky-400">
+      <div className="max-w-xl w-full">
+        <div className="transition-colors flex gap-2 relative w-full border-4 border-slate-400 overflow-hidden rounded-xl focus-within:border-sky-400">
           <p
             onClick={handleFocusInput}
-            className="py-2 px-4 w-full h-52 bg-slate-100 test-white text-xl font-light"
+            className="transition-colors py-3 px-4 w-full h-52 bg-slate-100 focus-within:bg-white text-3xl font-bold overflow-y-auto text-slate-700"
           >
             {content}{" "}
             <input
@@ -106,6 +106,7 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) 
               className={`${warn ? "bg-red-300" : "bg-transparent"} outline-none`}
               onChange={handleType}
               onKeyDown={handleBackspace}
+              placeholder="_"
               value={wordPart}
             />
           </p>

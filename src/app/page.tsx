@@ -91,7 +91,7 @@ const Graph = () => {
   return (
     <div className="h-screen w-full flex items-center justify-center">
       <AutoCompleteNotepad onUpdate={handleUpdateGraph} onInitGraph={handleInitGraph} />
-      <p className="fixed bottom-5 left-20 z-50 bg-slate-50">
+      <p className="fixed bottom-5 left-20 z-50 bg-slate-50 font-semibold tracking-wide">
         type using the {MAX_WORDS} most common words in the english dictionary, and no more.
       </p>
       <ReactFlow
@@ -102,7 +102,7 @@ const Graph = () => {
         nodeTypes={customNodeSelectors}
         onlyRenderVisibleElements={true}
       >
-        <MiniMap nodeStrokeWidth={100} pannable />
+        <MiniMap nodeStrokeWidth={300} nodeStrokeColor="skyblue" pannable />
         <Controls />
         <Background color="#4C3B4D" />
       </ReactFlow>
