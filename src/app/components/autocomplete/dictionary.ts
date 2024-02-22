@@ -3,7 +3,7 @@ import Trie, { OutputNode } from "../Trie";
 export type Node = {
   id: string;
   position: { x: number; y: number };
-  data: { label: string; highlighted?: boolean; isWord?: boolean };
+  data: { label: string; highlighted?: boolean; isWord?: boolean; typed?: boolean };
   type: "trie";
 };
 export type Edge = { id: string; source: string; target: string };
@@ -41,6 +41,9 @@ export const Dictionary = () => {
 export type Dictionary = ReturnType<typeof Dictionary>;
 export type GraphData = ReturnType<ReturnType<typeof Dictionary>["graph"]>;
 
+const _buildPartialWordFromId = (idSinceRoot: string) =>
+  idSinceRoot.replace(/root|-|[^a-zA-Z]/g, "");
+
 const traverse = (
   node: OutputNode<string> | null,
   id: string,
@@ -60,6 +63,7 @@ const traverse = (
       label: node.value ?? "empty",
       isWord: node.isWord,
       highlighted: !!partial ? node.tagged === partial : false,
+      typed: partial?.startsWith(_buildPartialWordFromId(idSinceRoot)),
     },
   };
   outputNodes.push(newNode);
