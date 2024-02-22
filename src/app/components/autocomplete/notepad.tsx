@@ -36,6 +36,8 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate }) => {
   useEffect(() => {
     if (!!word) {
       handleSearch(word);
+    } else {
+      handleSearch("");
     }
   }, [word]);
 
@@ -76,13 +78,22 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate }) => {
     }
   };
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handleFocusInput = () => {
+    inputRef.current?.focus();
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full px-8 pt-10 z-50 flex md:flex-row flex-col gap-2 items-start">
       <div className="max-w-lg w-full">
-        <div className="flex gap-2 relative w-full border-2 border-sky-500 rounded-md focus-within:outline outline-2 outline-sky-500">
-          <p className="py-2 px-4 w-full h-52 bg-slate-300 test-white rounded-md text-xl font-light">
+        <div className="transition-colors flex gap-2 relative w-full border-2 border-slate-400 overflow-hidden rounded-lg focus-within:border-sky-400">
+          <p
+            onClick={handleFocusInput}
+            className="py-2 px-4 w-full h-52 bg-slate-100 test-white text-xl font-light"
+          >
             {content}{" "}
             <input
+              ref={inputRef}
               className={`${warn ? "bg-red-300" : "bg-transparent"} outline-none`}
               onChange={handleType}
               onKeyDown={handleBackspace}
