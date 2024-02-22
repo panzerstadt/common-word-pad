@@ -15,13 +15,13 @@ interface Props {
 
 export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) => {
   const [content, setContent] = useState<string>("");
-  const [word, setWord] = useState<string>("");
+  const [wordPart, setWordPart] = useState<string>("");
   const [warn, flashWarn] = useBlink();
 
   const [results, graph, { handleSearch, handleLoadDictionary }] = useAutoComplete();
   const wordBreakRegex = /[\s,.\-:]/; // supported word breaks
   const isValidWord =
-    word === "" || results.find((res) => res === word.replace(wordBreakRegex, ""));
+    wordPart === "" || results.find((res) => res === wordPart.replace(wordBreakRegex, ""));
 
   useEffect(() => {
     const COMMON_WORDS_1K = "1k.txt";
@@ -37,12 +37,12 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) 
   }, []);
 
   useEffect(() => {
-    if (!!word) {
-      handleSearch(word);
+    if (!!wordPart) {
+      handleSearch(wordPart);
     } else {
       handleSearch("");
     }
-  }, [word]);
+  }, [wordPart]);
 
   useDebouncedEffect(
     () => {
@@ -63,13 +63,13 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) 
     const valueArray = [...value];
 
     if (valueArray.every((v) => isAlpha(v))) {
-      return setWord(value);
+      return setWordPart(value);
     }
 
     const lastChar = valueArray[value.length - 1];
     if (wordBreakRegex.test(lastChar) && isValidWord) {
       setContent((p) => `${p} ${value.trim()}`);
-      setWord("");
+      setWordPart("");
       return;
     }
 
@@ -77,10 +77,10 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) 
   };
 
   const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Backspace" && word.length === 0) {
+    if (e.key === "Backspace" && wordPart.length === 0) {
       // load the previous word back
       const lastWord = given.string(content).afterLast(" ").toString();
-      setWord(lastWord);
+      setWordPart(lastWord);
 
       // remove the last item from content
       setContent((p) => given.string(p).beforeLast(" ").toString());
@@ -106,7 +106,7 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) 
               className={`${warn ? "bg-red-300" : "bg-transparent"} outline-none`}
               onChange={handleType}
               onKeyDown={handleBackspace}
-              value={word}
+              value={wordPart}
             />
           </p>
         </div>
