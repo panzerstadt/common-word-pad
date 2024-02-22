@@ -74,7 +74,7 @@ const Graph = () => {
   return (
     <div className="h-screen w-full flex items-center justify-center">
       <AutoCompleteNotepad onUpdate={handleUpdateGraph} />
-      <p className="fixed bottom-5 left-20">
+      <p className="fixed bottom-5 left-20 z-50 bg-slate-50">
         type using the 200 most common words in the english dictionary, and no more.
       </p>
       <ReactFlow
