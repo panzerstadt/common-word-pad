@@ -10,9 +10,10 @@ export const MAX_WORDS = 500;
 
 interface Props {
   onUpdate?: (graph: GraphData) => void;
+  onInitGraph?: (graph: GraphData) => void;
 }
 
-export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate }) => {
+export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate, onInitGraph }) => {
   const [content, setContent] = useState<string>("");
   const [word, setWord] = useState<string>("");
   const [warn, flashWarn] = useBlink();
@@ -47,9 +48,15 @@ export const AutoCompleteNotepad: React.FC<Props> = ({ onUpdate }) => {
     () => {
       graph && onUpdate?.(graph);
     },
-    300,
+    { timeout: 50, ignoreInitialCall: true },
     [graph]
   );
+
+  useEffect(() => {
+    if (graph?.nodes && graph.nodes.length > 1) {
+      onInitGraph?.(graph);
+    }
+  }, [graph?.nodes.length]);
 
   const handleType = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

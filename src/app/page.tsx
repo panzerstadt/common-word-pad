@@ -56,7 +56,7 @@ const Graph = () => {
 
     const timer = setTimeout(() => {
       window.requestAnimationFrame(() => {
-        fitView({ padding: 0.5, nodes: highlightedNodes });
+        fitView({ padding: 0.5, nodes: highlightedNodes, duration: 500 });
       });
     }, 30);
 
@@ -65,7 +65,24 @@ const Graph = () => {
     };
   }, [graph]);
 
-  const handleUpdateGraph = (newGraph: GraphData) => {
+  const handleUpdateGraph = (updatedGraph: GraphData) => {
+    if (nodes.length === 0) return;
+    const updatedNodes = updatedGraph.nodes;
+
+    // assumption made that the position of nodes in the array never changes
+    const newNodes = nodes.map((node, idx) => ({ ...node, data: updatedNodes[idx].data }));
+    setNodes(newNodes);
+
+    const highlightedNodes = (newNodes as GraphData["nodes"]).filter(
+      (n) => n.data.highlighted && n.data.label !== "empty"
+    );
+
+    window.requestAnimationFrame(() => {
+      fitView({ padding: 0.5, nodes: highlightedNodes, duration: 300 });
+    });
+  };
+
+  const handleInitGraph = (newGraph: GraphData) => {
     setGraph(newGraph);
     setNodes(newGraph.nodes);
     setEdges(newGraph.edges);
@@ -73,7 +90,7 @@ const Graph = () => {
 
   return (
     <div className="h-screen w-full flex items-center justify-center">
-      <AutoCompleteNotepad onUpdate={handleUpdateGraph} />
+      <AutoCompleteNotepad onUpdate={handleUpdateGraph} onInitGraph={handleInitGraph} />
       <p className="fixed bottom-5 left-20 z-50 bg-slate-50">
         type using the {MAX_WORDS} most common words in the english dictionary, and no more.
       </p>
